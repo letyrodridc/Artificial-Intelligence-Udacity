@@ -16,9 +16,12 @@ This repository contains my completed project in the Artificial Intelligence Nan
 
 * Dog Breed Recognition: Using Convolutional Neural Networks and transfer learning from pre-trained models. Written in Python and using Keras as DL framework.
 
-* RNN : Detecting stock prices and generating english text from Sherlock Holmes scripts. This projects is written in Keras.
+* RNN : Detecting stock prices and generating english text from Sherlock Holmes scripts. This projects is written 
+in Keras.
+
+* Amazon Alexa - Voice User Interfaces : Amazon Alexa uses implementation project. 
 
 * Capstone project - Voice User Interfaces : Extraing features from audio and detecting the words using Recurrent Neural Networks in python and Keras.
 
- 
+
 

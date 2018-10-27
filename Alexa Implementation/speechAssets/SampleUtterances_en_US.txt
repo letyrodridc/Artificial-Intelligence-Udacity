@@ -1,0 +1,30 @@
+GetNewFactIntent a fact
+GetNewFactIntent tell me a fact
+GetNewFactIntent give me a fact
+GetNewFactIntent give me something
+GetNewFactIntent tell me anything
+GetNewFactIntent say something
+GetNewFactIntent tell me a trivia
+GetNewFactIntent an AI fact
+GetNewFactIntent an Artificial Intelligence fact
+GetNewFactIntent an AI trivia
+GetNewFactIntent give me some information about AI
+GetNewFactIntent give me some information
+GetNewFactIntent something to say
+GetNewFactIntent talk to me
+GetNewFactIntent tell me a AI trivia
+GetNewYearFactIntent tell me an fact in {FACT_YEAR}
+GetNewYearFactIntent {FACT_YEAR} fact
+GetNewYearFactIntent give me a fact in {FACT_YEAR}
+GetNewYearFactIntent {FACT_YEAR} AI fact
+GetNewYearFactIntent tell me something in {FACT_YEAR}
+GetNewYearFactIntent give me some information about {FACT_YEAR}
+GetNewYearFactIntent a fun AI fact in {FACT_YEAR}
+GetNewYearFactIntent say something in {FACT_YEAR}
+GetNewYearFactIntent tell me what you know about {FACT_YEAR}
+GetNewYearFactIntent talk me about {FACT_YEAR}
+GetNewYearFactIntent tell me a trivia about {FACT_YEAR}
+GetNewYearFactIntent a {FACT_YEAR} fact
+GetNewYearFactIntent a {FACT_YEAR} Artificial Intelligence fact
+GetNewYearFactIntent a {FACT_YEAR} AI fact
+GetNewYearFactIntent something to say about {FACT_YEAR}

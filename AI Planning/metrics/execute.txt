@@ -1,0 +1,8 @@
+# breadth_first_search
+python run_search.py -p 1 -s 1
+
+# depth_first_graph_search
+python run_search.py -p 1 -s 3
+
+# uniform_cost_search
+python run_search.py -p 1 -s 5

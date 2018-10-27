@@ -1,0 +1,1829 @@
+%---------------------------------------------------------------------------------------
+% Configuracion de Documento
+%---------------------------------------------------------------------------------------
+\documentclass[10pt, a4paper,english]{article}
+
+\parindent=20pt
+\parskip=1pt
+\usepackage[width=15.5cm, left=3cm, top=2cm, height= 24.5cm]{geometry}
+
+% User package
+\usepackage{epigraph}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage[activeacute, spanish]{babel}
+\usepackage{cancel}
+\usepackage[utf8]{inputenc}
+%\usepackage{graphicx}
+\usepackage{algorithm}
+%\usepackage{algorithmic}
+%\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+%\usepackage{afterpage}
+\usepackage{lastpage}
+\usepackage{listings}
+\usepackage{url}
+\usepackage{mathptmx}
+\usepackage{cite}
+\usepackage{pifont}
+\usepackage{float}
+\usepackage{color}     % para snipets de codigo coloreados
+\usepackage{xcolor}
+\usepackage{fancybox}  % para el sbox de los snipets de codigo
+\usepackage[pdftex]{graphicx}
+\usepackage{graphicx} %paquete para incluir imagenes
+\usepackage{caption}
+\usepackage{subcaption}
+
+
+
+
+\lstset{frame=tb,
+	  language=Java,
+	  aboveskip=3mm,
+	  belowskip=3mm,
+	  showstringspaces=false,
+	  columns=flexible,
+	  basicstyle={\scriptsize\ttfamily},
+	  numberstyle=\tiny\color{gray},
+	  keywordstyle=\color{blue},
+	  commentstyle=\color{green},
+	  stringstyle=\color{red},
+	  breaklines=true,
+	  breakatwhitespace=true,
+	  tabsize=3,
+	  numbers=left,
+	  numbersep=15pt,
+	  numberfirstline = false
+	}
+
+
+\pagestyle{fancy}
+
+\thispagestyle{fancy}
+
+\addtolength{\headheight}{1pt}
+
+\lhead{Implement a Planning Search}
+
+\rhead{Leticia L. Rodriguez} % <--- Cambiar de acuerdo al tp actual
+
+\cfoot{\thepage /\pageref{LastPage}}
+
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Informacion del documento
+
+\author{\normalsize{Leticia Lorena Rodr\'iguez}}
+
+\date{\normalsize{March 20th, 2017}} % <--- Cambiar de acuerdo al tp actual
+
+\title{
+	\includegraphics[width=0.05\textwidth]{udacity-small.png}\\
+Build a Game-Playing Agent \\
+\large {Research Review}
+} % <--- Cambiar de acuerdo al tp actual
+
+
+\begin{document}
+
+\begin{center}
+
+\includegraphics[width=0.05\textwidth]{udacity-small.png}\\
+Implement a Planning Search \\
+Leticia L. Rodriguez \\
+\end{center}
+
+
+
+\section{Results}
+
+The results of running air\_cargo\_p1, air\_cargo\_p2 and air\_cargo\_p3 using different search algorithms and heuristics are included in this section.
+
+
+\subsection{Uniformed planning searches}
+
+Running air\_cargo\_p1, air\_cargo\_p2 and air\_cargo\_p3 in at least three searches got the results:
+\begin{center}
+\includegraphics[width=1\textwidth]{nonheuristic.png}\\
+\end{center}
+
+\begin{scriptsize}
+Note: The optimality factor is determined using the plan length.\\
+\indent Note2: Time is expressed in milliseconds (ms).
+\end{scriptsize}
+
+\subsection{Planning searches using heuristics}
+
+The results of running A* search with the three heuristics: h1, h\_ignore\_preconditions and h\_level\_sum are included next:
+
+ \begin{center}
+\includegraphics[width=1\textwidth]{heuristic.png}\\
+\end{center}
+
+\begin{scriptsize}
+Note: The optimality factor is determined using the plan length.\\
+\indent Note2: Time is expressed in milliseconds (ms).
+\end{scriptsize}
+
+\section{Analysis}
+
+\subsection{Optimal plan}
+
+\subsubsection{Problem 1}
+
+Three of the non-heuristic searches have found a minimum length plan. Those searches are uniform\_cost\_search, breadth\_first\_search and breadth\_first\_tree\_search.
+
+Any of these six length plans are optimal. \\
+
+For example, breadth\_first\_search suggests:
+
+\indent \texttt{ \\
+\indent Load(C2, P2, JFK) \\
+\indent Load(C1, P1, SFO) \\
+\indent Fly(P2, JFK, SFO) \\
+\indent Unload(C2, P2, SFO) \\
+\indent Fly(P1, SFO, JFK) \\
+\indent Unload(C1, P1, JFK) \\
+}
+
+In the case of heuristic search, all of them have found a six length optimal plan. \\
+
+\begin{figure}[h]
+\includegraphics[width=1\textwidth]{problem1.png}\\
+\caption{Problem 1 - Search Methods Optimal Plan}
+\end{figure}
+
+
+The difference between these non-heuristic and heuristic searches, that have found an optimal plan, is going to be discuss in following sections of this report. \\
+
+\subsubsection{Problem 2}
+
+As problem 1, all the heuristic searches have found optimal length plan. In the case of non-heuristic search just uniform\_cost\_search and breadth\_first\_search have found an optimal plan. \\
+
+Only depth\_first\_graph\_search has failed in the task of finding an optimal plan. The length of the plan found was larger with 575 actions. \\
+
+For example, an optimal plan found using uniform\_cost\_search:
+
+\indent \texttt{ \\
+\indent Load(C1, P1, SFO) \\
+\indent Load(C2, P2, JFK) \\
+\indent Load(C3, P3, ATL) \\
+\indent Fly(P1, SFO, JFK) \\
+\indent Fly(P2, JFK, SFO) \\
+\indent Fly(P3, ATL, SFO) \\
+\indent Unload(C3, P3, SFO)\\
+\indent Unload(C1, P1, JFK)\\
+\indent Unload(C2, P2, SFO)\\
+}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{problem2.png}\\
+\caption{Problem 2 - Search Methods Optimal Plan}
+\end{center}
+\end{figure}
+
+\subsubsection{Problem 3}
+
+For problem 3, depth\_first\_graph\_search hasn't reached an optimal plan. \\
+
+Uniform\_cost\_search and breadth\_first\_tree\_search have arrived to an optimal plan of length 12, in the case of non-heuristic searches. \\
+
+As happen before, all the heuristics have arrived to an optimal plan. \\
+
+For example, breadth\_first\_tree\_search  has found this plan:
+
+\indent \texttt{ 
+\indent Load(C2, P2, JFK)\\
+\indent Load(C1, P1, SFO)\\
+\indent Fly(P2, JFK, ORD)\\
+\indent Load(C4, P2, ORD)\\
+\indent Fly(P1, SFO, ATL)\\
+\indent Load(C3, P1, ATL)\\
+\indent Fly(P1, ATL, JFK)\\
+\indent Unload(C1, P1, JFK)\\
+\indent Unload(C3, P1, JFK)\\
+\indent Fly(P2, ORD, SFO)\\
+\indent Unload(C2, P2, SFO)\\
+\indent Unload(C4, P2, SFO)\\
+}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{problem3.png}\\
+\caption{Problem 3 - Search Methods Optimal Plan}
+\end{center}
+\end{figure}
+
+\subsection{Best non-heuristic search}
+
+The evaluation regarding the best non-heuristic used is done in general, without taking a particular problem. \\
+
+The results that are taking into account to make the selection are: plan length and time. The best non-heuristic search is going to be that one that finds the optimal plan in the less time as possible. \\
+
+In the case of non-heuristic search, only uniform\_cost\_search and breadth\_first\_tree\_search have arrived to an optimal plan. \\
+
+In the three problems, BFS has done it in less time. \\
+
+BFS has found the optimal plan, in less time for the three problems so we can conclude that is the best non-heuristic search. \\
+
+
+\subsection{Best heuristic used}
+
+In this case, the three heuristics tested have arrived to an optimal plan but with different elapsed time. \\
+
+H\_ignore\_preconditions has done it faster than the rest in almost all problems. For problem 1, h\_1 was a little bit faster but in the rest of the problem is doesn't happen this way.
+
+So, we can conclude that in overall, h\_ignore\_preconditions was the best heuristic used.
+
+
+\section{Conclusions}
+
+In the experimentation above, there are three problems were a series of search methods were applied to find an optimal plan.\\
+
+In the case of non-heuristic search, uniform\_cost\_search and breadth\_first\_tree\_search have arrived an optimal plan in all the problems. Both search graph breadth/least cost wise and return the optimal (first goal-state encounter) value for even an infinite graph. (Lesson 7 - 22. Quiz: Search Comparison)\\
+
+But depth\_first\_search fails in the task. It returns a plan but it could be not the optimal. This is related with the way that depth\_first\_search walk-through the graph/tree nodes. It explores the nodes depth wise and goes to deeper nodes first and returns the first goal-state encounter value for even an infinite graph which may not be optimal. (Lesson 7 - 22. Quiz: Search Comparison)\\
+
+As it is explained in video lessons, we can summarize the optimality of each search in this image:
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{optimality.png}\\
+\caption{Lesson 7 - 22. Quiz: Search Comparison}
+\end{center}
+\end{figure}
+
+About the heuristic search, all the tested heuristics have found an optimal plan for the three problems. That happens because they are admissible, each $h$ function doesn't overestimate the distance to goal (Lesson 7 - 32. A* Search 5). \\
+
+h\_1 returns a constant value 1. So, the estimation to the goal for each node is going to be the same. In the algorithm A*, to select which node expand is going to depend on \textit{g}, path cost, and \textit{h}, the heuristic. In this case, it's going to have more weight the function \textit{g} because \textit{h} is the same for every node.\\
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=1\textwidth]{asearch.png}\\
+\caption{Lesson 7 - 27. Quiz: A* Search}
+\end{center}
+\end{figure}
+
+In h\_ignore\_preconditions, every action is applicable in every step so that makes that a single goal fluent could be reachable in one step (AIMA - 10.2.3 - Heuristics for planning). In metrics, we can see that in the number of expansions that are less than h\_1 heuristic. \\
+
+H\_levelsum works well in practice for problems that are largely decomposable (AIMA Book - Chapter 10 - 10.3.1. Planning graphs for heuristic estimation). It does less expansions than h\_ignore\_preconditions, besides that the elapsed time is higher. \\
+
+\section{Appendix}
+
+The complete results of the testing is included for reference.
+
+\subsection{Problem 1}
+\begin{lstlisting}
+
+Solving Air Cargo Problem 1 using breadth_first_search...
+
+Expansions   Goal Tests   New Nodes
+    43          56         180    
+
+Plan length: 6  Time elapsed in seconds: 0.0340201889994205
+Load(C2, P2, JFK)
+Load(C1, P1, SFO)
+Fly(P2, JFK, SFO)
+Unload(C2, P2, SFO)
+Fly(P1, SFO, JFK)
+Unload(C1, P1, JFK)
+
+
+Solving Air Cargo Problem 1 using depth_first_graph_search...
+
+Expansions   Goal Tests   New Nodes
+    12          13          48    
+
+Plan length: 12  Time elapsed in seconds: 0.015669232998334337
+Fly(P1, SFO, JFK)
+Fly(P2, JFK, SFO)
+Load(C1, P2, SFO)
+Fly(P2, SFO, JFK)
+Fly(P1, JFK, SFO)
+Unload(C1, P2, JFK)
+Fly(P2, JFK, SFO)
+Fly(P1, SFO, JFK)
+Load(C2, P1, JFK)
+Fly(P2, SFO, JFK)
+Fly(P1, JFK, SFO)
+Unload(C2, P1, SFO)
+
+
+Solving Air Cargo Problem 1 using uniform_cost_search...
+
+Expansions   Goal Tests   New Nodes
+    55          57         224    
+
+Plan length: 6  Time elapsed in seconds: 0.0427645300005679
+Load(C1, P1, SFO)
+Load(C2, P2, JFK)
+Fly(P1, SFO, JFK)
+Fly(P2, JFK, SFO)
+Unload(C1, P1, JFK)
+Unload(C2, P2, SFO)
+
+
+Solving Air Cargo Problem 1 using breadth_first_search...
+
+Expansions   Goal Tests   New Nodes
+    43          56         180    
+
+Plan length: 6  Time elapsed in seconds: 0.03434167399973376
+Load(C2, P2, JFK)
+Load(C1, P1, SFO)
+Fly(P2, JFK, SFO)
+Unload(C2, P2, SFO)
+Fly(P1, SFO, JFK)
+Unload(C1, P1, JFK)
+
+
+Solving Air Cargo Problem 1 using depth_limited_search...
+
+Expansions   Goal Tests   New Nodes
+   101         271         414    
+
+Plan length: 50  Time elapsed in seconds: 0.09866303400121978
+Load(C2, P2, JFK)
+Load(C1, P1, SFO)
+Unload(C2, P2, JFK)
+Load(C2, P2, JFK)
+Unload(C2, P2, JFK)
+Load(C2, P2, JFK)
+Unload(C2, P2, JFK)
+Load(C2, P2, JFK)
+Unload(C2, P2, JFK)
+Load(C2, P2, JFK)
+Unload(C2, P2, JFK)
+Load(C2, P2, JFK)
+Unload(C2, P2, JFK)
+Load(C2, P2, JFK)
+Unload(C2, P2, JFK)
+Load(C2, P2, JFK)
+Unload(C2, P2, JFK)
+Load(C2, P2, JFK)
+Unload(C2, P2, JFK)
+Load(C2, P2, JFK)
+Unload(C2, P2, JFK)
+Load(C2, P2, JFK)
+Unload(C2, P2, JFK)
+Load(C2, P2, JFK)
+Unload(C2, P2, JFK)
+Load(C2, P2, JFK)
+Unload(C2, P2, JFK)
+Load(C2, P2, JFK)
+Unload(C2, P2, JFK)
+Load(C2, P2, JFK)
+Unload(C2, P2, JFK)
+Load(C2, P2, JFK)
+Unload(C2, P2, JFK)
+Load(C2, P2, JFK)
+Unload(C2, P2, JFK)
+Load(C2, P2, JFK)
+Unload(C2, P2, JFK)
+Load(C2, P2, JFK)
+Unload(C2, P2, JFK)
+Load(C2, P2, JFK)
+Unload(C2, P2, JFK)
+Load(C2, P2, JFK)
+Unload(C2, P2, JFK)
+Load(C2, P2, JFK)
+Unload(C2, P2, JFK)
+Load(C2, P2, JFK)
+Fly(P2, JFK, SFO)
+Unload(C2, P2, SFO)
+Fly(P1, SFO, JFK)
+Unload(C1, P1, JFK)
+
+
+Solving Air Cargo Problem 1 using astar_search with h_1...
+
+Expansions   Goal Tests   New Nodes
+    55          57         224    
+
+Plan length: 6  Time elapsed in seconds: 0.04365915800008224
+Load(C1, P1, SFO)
+Load(C2, P2, JFK)
+Fly(P1, SFO, JFK)
+Fly(P2, JFK, SFO)
+Unload(C1, P1, JFK)
+Unload(C2, P2, SFO)
+
+
+Solving Air Cargo Problem 1 using astar_search with h_ignore_preconditions...
+
+Expansions   Goal Tests   New Nodes
+    41          43         170    
+
+Plan length: 6  Time elapsed in seconds: 0.050567197999043856
+Load(C1, P1, SFO)
+Fly(P1, SFO, JFK)
+Unload(C1, P1, JFK)
+Load(C2, P2, JFK)
+Fly(P2, JFK, SFO)
+Unload(C2, P2, SFO)
+
+
+Solving Air Cargo Problem 1 using astar_search with h_pg_levelsum...
+
+Expansions   Goal Tests   New Nodes
+    11          13          50    
+
+Plan length: 6  Time elapsed in seconds: 2.4005685669999366
+Load(C1, P1, SFO)
+Fly(P1, SFO, JFK)
+Load(C2, P2, JFK)
+Fly(P2, JFK, SFO)
+Unload(C1, P1, JFK)
+Unload(C2, P2, SFO)
+
+
+\end{lstlisting}
+
+\subsection{Problem 2}
+\begin{lstlisting}
+
+
+Solving Air Cargo Problem 2 using breadth_first_search...
+
+Expansions   Goal Tests   New Nodes
+   3343        4609       30509   
+
+Plan length: 9  Time elapsed in seconds: 15.07480358900284
+Load(C2, P2, JFK)
+Load(C1, P1, SFO)
+Load(C3, P3, ATL)
+Fly(P2, JFK, SFO)
+Unload(C2, P2, SFO)
+Fly(P1, SFO, JFK)
+Unload(C1, P1, JFK)
+Fly(P3, ATL, SFO)
+Unload(C3, P3, SFO)
+
+
+Solving Air Cargo Problem 2 using depth_first_graph_search...
+
+Expansions   Goal Tests   New Nodes
+   582         583         5211   
+
+Plan length: 575  Time elapsed in seconds: 3.4084108200004266
+Fly(P3, ATL, SFO)
+Fly(P1, SFO, ATL)
+Fly(P3, SFO, JFK)
+Fly(P1, ATL, JFK)
+Fly(P2, JFK, ATL)
+Fly(P3, JFK, ATL)
+Fly(P2, ATL, SFO)
+Fly(P3, ATL, SFO)
+Load(C1, P3, SFO)
+Fly(P3, SFO, ATL)
+Fly(P2, SFO, ATL)
+Fly(P3, ATL, JFK)
+Fly(P2, ATL, JFK)
+Fly(P1, JFK, ATL)
+Fly(P3, JFK, ATL)
+Fly(P1, ATL, SFO)
+Unload(C1, P3, ATL)
+Fly(P3, ATL, SFO)
+Fly(P1, SFO, ATL)
+Fly(P3, SFO, JFK)
+Fly(P1, ATL, JFK)
+Fly(P2, JFK, ATL)
+Fly(P3, JFK, SFO)
+Fly(P2, ATL, SFO)
+Load(C2, P1, JFK)
+Fly(P3, SFO, ATL)
+Fly(P2, SFO, ATL)
+Fly(P1, JFK, ATL)
+Fly(P3, ATL, SFO)
+Fly(P1, ATL, SFO)
+Fly(P2, ATL, JFK)
+Fly(P3, SFO, ATL)
+Unload(C2, P1, SFO)
+Fly(P3, ATL, JFK)
+Fly(P1, SFO, ATL)
+Fly(P2, JFK, ATL)
+Fly(P1, ATL, JFK)
+Fly(P2, ATL, SFO)
+Fly(P3, JFK, ATL)
+Fly(P1, JFK, ATL)
+Fly(P3, ATL, SFO)
+Fly(P1, ATL, SFO)
+Load(C2, P3, SFO)
+Fly(P3, SFO, ATL)
+Fly(P2, SFO, ATL)
+Fly(P3, ATL, JFK)
+Fly(P1, SFO, ATL)
+Fly(P2, ATL, SFO)
+Load(C3, P1, ATL)
+Fly(P1, ATL, SFO)
+Fly(P2, SFO, ATL)
+Fly(P1, SFO, JFK)
+Fly(P2, ATL, JFK)
+Fly(P3, JFK, ATL)
+Fly(P1, JFK, ATL)
+Fly(P3, ATL, SFO)
+Fly(P1, ATL, SFO)
+Unload(C2, P3, SFO)
+Fly(P3, SFO, ATL)
+Fly(P1, SFO, ATL)
+Fly(P2, JFK, ATL)
+Fly(P3, ATL, SFO)
+Fly(P1, ATL, JFK)
+Fly(P2, ATL, SFO)
+Fly(P3, SFO, ATL)
+Unload(C3, P1, JFK)
+Fly(P3, ATL, JFK)
+Fly(P2, SFO, ATL)
+Fly(P1, JFK, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, SFO)
+Fly(P3, JFK, ATL)
+Fly(P2, JFK, ATL)
+Fly(P3, ATL, SFO)
+Fly(P2, ATL, SFO)
+Fly(P1, SFO, ATL)
+Load(C1, P1, ATL)
+Fly(P1, ATL, SFO)
+Fly(P3, SFO, ATL)
+Fly(P2, SFO, ATL)
+Fly(P3, ATL, JFK)
+Fly(P2, ATL, JFK)
+Fly(P1, SFO, JFK)
+Fly(P3, JFK, ATL)
+Fly(P1, JFK, ATL)
+Load(C3, P2, JFK)
+Fly(P3, ATL, SFO)
+Fly(P1, ATL, SFO)
+Fly(P2, JFK, ATL)
+Fly(P3, SFO, ATL)
+Fly(P2, ATL, SFO)
+Fly(P3, ATL, JFK)
+Fly(P1, SFO, ATL)
+Fly(P2, SFO, ATL)
+Fly(P1, ATL, JFK)
+Unload(C3, P2, ATL)
+Fly(P2, ATL, SFO)
+Fly(P3, JFK, ATL)
+Fly(P2, SFO, JFK)
+Fly(P3, ATL, SFO)
+Fly(P1, JFK, ATL)
+Fly(P2, JFK, ATL)
+Fly(P3, SFO, ATL)
+Load(C3, P3, ATL)
+Fly(P3, ATL, SFO)
+Fly(P2, ATL, SFO)
+Fly(P1, ATL, SFO)
+Fly(P3, SFO, ATL)
+Fly(P2, SFO, JFK)
+Unload(C1, P1, SFO)
+Fly(P3, ATL, SFO)
+Fly(P1, SFO, ATL)
+Fly(P3, SFO, JFK)
+Fly(P1, ATL, JFK)
+Fly(P2, JFK, ATL)
+Fly(P3, JFK, ATL)
+Fly(P2, ATL, SFO)
+Fly(P3, ATL, SFO)
+Unload(C3, P3, SFO)
+Fly(P3, SFO, ATL)
+Fly(P2, SFO, ATL)
+Fly(P3, ATL, JFK)
+Fly(P2, ATL, JFK)
+Fly(P1, JFK, ATL)
+Fly(P3, JFK, ATL)
+Fly(P1, ATL, SFO)
+Load(C3, P1, SFO)
+Fly(P3, ATL, SFO)
+Fly(P1, SFO, ATL)
+Fly(P3, SFO, JFK)
+Fly(P1, ATL, JFK)
+Fly(P2, JFK, ATL)
+Fly(P3, JFK, ATL)
+Fly(P2, ATL, SFO)
+Fly(P3, ATL, SFO)
+Unload(C3, P1, JFK)
+Fly(P2, SFO, ATL)
+Fly(P1, JFK, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, SFO)
+Fly(P3, SFO, ATL)
+Fly(P1, SFO, JFK)
+Load(C3, P2, JFK)
+Fly(P3, ATL, SFO)
+Fly(P2, JFK, ATL)
+Fly(P3, SFO, JFK)
+Fly(P2, ATL, SFO)
+Fly(P1, JFK, ATL)
+Fly(P2, SFO, JFK)
+Fly(P1, ATL, SFO)
+Load(C2, P1, SFO)
+Fly(P1, SFO, ATL)
+Fly(P3, JFK, ATL)
+Fly(P1, ATL, JFK)
+Fly(P3, ATL, SFO)
+Fly(P2, JFK, ATL)
+Fly(P3, SFO, JFK)
+Fly(P2, ATL, SFO)
+Unload(C3, P2, SFO)
+Fly(P2, SFO, ATL)
+Fly(P3, JFK, ATL)
+Fly(P2, ATL, JFK)
+Fly(P3, ATL, SFO)
+Fly(P1, JFK, ATL)
+Fly(P3, SFO, JFK)
+Fly(P1, ATL, SFO)
+Load(C3, P1, SFO)
+Fly(P1, SFO, ATL)
+Fly(P3, JFK, ATL)
+Fly(P1, ATL, JFK)
+Fly(P3, ATL, SFO)
+Fly(P2, JFK, ATL)
+Fly(P3, SFO, JFK)
+Fly(P2, ATL, SFO)
+Unload(C3, P1, JFK)
+Fly(P2, SFO, JFK)
+Unload(C2, P1, JFK)
+Fly(P3, JFK, ATL)
+Fly(P2, JFK, ATL)
+Fly(P3, ATL, SFO)
+Fly(P2, ATL, SFO)
+Fly(P1, JFK, ATL)
+Fly(P3, SFO, ATL)
+Fly(P1, ATL, SFO)
+Fly(P3, ATL, JFK)
+Fly(P2, SFO, ATL)
+Fly(P1, SFO, ATL)
+Load(C3, P3, JFK)
+Fly(P2, ATL, SFO)
+Fly(P1, ATL, JFK)
+Fly(P3, JFK, SFO)
+Fly(P2, SFO, ATL)
+Fly(P1, JFK, SFO)
+Fly(P2, ATL, JFK)
+Fly(P1, SFO, ATL)
+Fly(P3, SFO, ATL)
+Fly(P1, ATL, JFK)
+Load(C2, P2, JFK)
+Fly(P3, ATL, SFO)
+Fly(P2, JFK, ATL)
+Fly(P3, SFO, JFK)
+Fly(P2, ATL, SFO)
+Fly(P1, JFK, ATL)
+Fly(P2, SFO, JFK)
+Fly(P1, ATL, SFO)
+Unload(C3, P3, JFK)
+Fly(P3, JFK, ATL)
+Fly(P1, SFO, ATL)
+Fly(P3, ATL, SFO)
+Fly(P1, ATL, JFK)
+Fly(P2, JFK, ATL)
+Fly(P3, SFO, ATL)
+Fly(P2, ATL, SFO)
+Load(C1, P2, SFO)
+Fly(P3, ATL, SFO)
+Fly(P2, SFO, ATL)
+Fly(P3, SFO, JFK)
+Fly(P2, ATL, JFK)
+Fly(P1, JFK, ATL)
+Fly(P3, JFK, ATL)
+Fly(P1, ATL, SFO)
+Fly(P3, ATL, SFO)
+Unload(C2, P2, JFK)
+Fly(P1, SFO, ATL)
+Fly(P2, JFK, ATL)
+Fly(P1, ATL, JFK)
+Fly(P3, SFO, ATL)
+Fly(P2, ATL, SFO)
+Fly(P3, ATL, JFK)
+Fly(P1, JFK, ATL)
+Load(C2, P3, JFK)
+Fly(P1, ATL, SFO)
+Fly(P2, SFO, ATL)
+Fly(P1, SFO, JFK)
+Fly(P2, ATL, JFK)
+Fly(P3, JFK, ATL)
+Fly(P1, JFK, ATL)
+Fly(P3, ATL, SFO)
+Fly(P1, ATL, SFO)
+Unload(C2, P3, SFO)
+Fly(P3, SFO, ATL)
+Fly(P1, SFO, ATL)
+Fly(P3, ATL, JFK)
+Fly(P1, ATL, JFK)
+Fly(P2, JFK, SFO)
+Fly(P1, JFK, SFO)
+Fly(P2, SFO, ATL)
+Load(C2, P1, SFO)
+Fly(P2, ATL, JFK)
+Fly(P1, SFO, ATL)
+Fly(P3, JFK, ATL)
+Fly(P1, ATL, JFK)
+Fly(P3, ATL, SFO)
+Fly(P2, JFK, SFO)
+Fly(P1, JFK, ATL)
+Fly(P2, SFO, ATL)
+Unload(C1, P2, ATL)
+Fly(P2, ATL, SFO)
+Fly(P1, ATL, JFK)
+Fly(P3, SFO, ATL)
+Fly(P2, SFO, ATL)
+Fly(P3, ATL, JFK)
+Fly(P2, ATL, JFK)
+Fly(P1, JFK, ATL)
+Fly(P3, JFK, ATL)
+Unload(C2, P1, ATL)
+Fly(P3, ATL, SFO)
+Fly(P1, ATL, SFO)
+Fly(P3, SFO, JFK)
+Fly(P1, SFO, JFK)
+Fly(P2, JFK, ATL)
+Fly(P3, JFK, ATL)
+Fly(P2, ATL, SFO)
+Fly(P3, ATL, SFO)
+Load(C3, P1, JFK)
+Fly(P2, SFO, ATL)
+Fly(P1, JFK, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, SFO)
+Fly(P3, SFO, ATL)
+Fly(P2, JFK, ATL)
+Fly(P3, ATL, JFK)
+Fly(P2, ATL, SFO)
+Fly(P1, SFO, ATL)
+Fly(P3, JFK, ATL)
+Unload(C3, P1, ATL)
+Fly(P3, ATL, SFO)
+Fly(P1, ATL, SFO)
+Fly(P2, SFO, ATL)
+Fly(P3, SFO, JFK)
+Fly(P2, ATL, JFK)
+Fly(P1, SFO, ATL)
+Load(C2, P1, ATL)
+Fly(P2, JFK, SFO)
+Load(C1, P1, ATL)
+Fly(P1, ATL, SFO)
+Fly(P2, SFO, ATL)
+Fly(P1, SFO, JFK)
+Fly(P2, ATL, JFK)
+Fly(P3, JFK, ATL)
+Fly(P1, JFK, ATL)
+Fly(P3, ATL, SFO)
+Fly(P1, ATL, SFO)
+Unload(C1, P1, SFO)
+Fly(P3, SFO, ATL)
+Fly(P2, JFK, ATL)
+Fly(P1, SFO, ATL)
+Fly(P3, ATL, SFO)
+Fly(P2, ATL, SFO)
+Fly(P3, SFO, JFK)
+Fly(P1, ATL, JFK)
+Load(C1, P2, SFO)
+Fly(P2, SFO, ATL)
+Fly(P1, JFK, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, SFO)
+Fly(P3, JFK, ATL)
+Fly(P1, SFO, JFK)
+Fly(P3, ATL, SFO)
+Unload(C1, P2, JFK)
+Fly(P2, JFK, ATL)
+Fly(P3, SFO, ATL)
+Fly(P2, ATL, SFO)
+Fly(P3, ATL, JFK)
+Fly(P1, JFK, ATL)
+Fly(P2, SFO, ATL)
+Fly(P1, ATL, SFO)
+Unload(C2, P1, SFO)
+Fly(P2, ATL, SFO)
+Fly(P1, SFO, ATL)
+Fly(P2, SFO, JFK)
+Fly(P1, ATL, JFK)
+Load(C1, P3, JFK)
+Fly(P3, JFK, ATL)
+Fly(P2, JFK, ATL)
+Fly(P3, ATL, SFO)
+Fly(P2, ATL, SFO)
+Fly(P1, JFK, ATL)
+Fly(P2, SFO, JFK)
+Fly(P1, ATL, SFO)
+Load(C2, P3, SFO)
+Fly(P3, SFO, ATL)
+Fly(P1, SFO, ATL)
+Fly(P2, JFK, ATL)
+Fly(P3, ATL, SFO)
+Unload(C1, P3, SFO)
+Fly(P2, ATL, SFO)
+Fly(P1, ATL, SFO)
+Fly(P3, SFO, ATL)
+Fly(P2, SFO, ATL)
+Fly(P3, ATL, JFK)
+Fly(P2, ATL, JFK)
+Load(C1, P1, SFO)
+Fly(P1, SFO, ATL)
+Fly(P3, JFK, ATL)
+Fly(P1, ATL, JFK)
+Fly(P2, JFK, ATL)
+Fly(P3, ATL, SFO)
+Fly(P2, ATL, SFO)
+Fly(P3, SFO, JFK)
+Unload(C2, P3, JFK)
+Fly(P3, JFK, ATL)
+Fly(P2, SFO, ATL)
+Fly(P3, ATL, SFO)
+Fly(P2, ATL, JFK)
+Load(C2, P2, JFK)
+Fly(P3, SFO, ATL)
+Fly(P2, JFK, ATL)
+Fly(P3, ATL, JFK)
+Fly(P1, JFK, ATL)
+Fly(P2, ATL, SFO)
+Fly(P1, ATL, SFO)
+Fly(P2, SFO, JFK)
+Unload(C1, P1, SFO)
+Fly(P2, JFK, ATL)
+Fly(P1, SFO, ATL)
+Fly(P2, ATL, SFO)
+Fly(P1, ATL, JFK)
+Fly(P3, JFK, ATL)
+Fly(P2, SFO, ATL)
+Fly(P3, ATL, SFO)
+Fly(P2, ATL, JFK)
+Load(C1, P3, SFO)
+Fly(P3, SFO, ATL)
+Fly(P2, JFK, ATL)
+Fly(P3, ATL, JFK)
+Fly(P2, ATL, SFO)
+Fly(P1, JFK, ATL)
+Fly(P3, JFK, ATL)
+Fly(P1, ATL, SFO)
+Fly(P3, ATL, SFO)
+Fly(P2, SFO, ATL)
+Fly(P1, SFO, ATL)
+Unload(C2, P2, ATL)
+Fly(P2, ATL, SFO)
+Fly(P1, ATL, SFO)
+Fly(P3, SFO, ATL)
+Fly(P2, SFO, ATL)
+Fly(P3, ATL, JFK)
+Fly(P2, ATL, JFK)
+Fly(P1, SFO, ATL)
+Unload(C1, P3, JFK)
+Fly(P1, ATL, JFK)
+Fly(P3, JFK, ATL)
+Fly(P2, JFK, ATL)
+Fly(P3, ATL, SFO)
+Fly(P2, ATL, SFO)
+Fly(P1, JFK, ATL)
+Fly(P3, SFO, ATL)
+Fly(P1, ATL, SFO)
+Load(C3, P3, ATL)
+Fly(P3, ATL, SFO)
+Fly(P2, SFO, ATL)
+Fly(P1, SFO, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, JFK)
+Fly(P3, SFO, JFK)
+Fly(P2, JFK, ATL)
+Unload(C3, P3, JFK)
+Fly(P2, ATL, SFO)
+Fly(P3, JFK, ATL)
+Fly(P2, SFO, JFK)
+Fly(P3, ATL, SFO)
+Fly(P1, JFK, ATL)
+Fly(P3, SFO, JFK)
+Fly(P1, ATL, SFO)
+Load(C1, P3, JFK)
+Fly(P1, SFO, JFK)
+Fly(P3, JFK, ATL)
+Load(C2, P3, ATL)
+Fly(P3, ATL, SFO)
+Fly(P2, JFK, ATL)
+Fly(P3, SFO, JFK)
+Fly(P2, ATL, SFO)
+Fly(P1, JFK, ATL)
+Fly(P2, SFO, JFK)
+Fly(P1, ATL, SFO)
+Unload(C2, P3, JFK)
+Fly(P1, SFO, JFK)
+Fly(P3, JFK, ATL)
+Fly(P2, JFK, ATL)
+Fly(P1, JFK, ATL)
+Fly(P3, ATL, SFO)
+Fly(P1, ATL, SFO)
+Fly(P2, ATL, SFO)
+Fly(P3, SFO, ATL)
+Unload(C1, P3, ATL)
+Fly(P3, ATL, SFO)
+Fly(P2, SFO, ATL)
+Fly(P3, SFO, JFK)
+Fly(P2, ATL, JFK)
+Fly(P1, SFO, ATL)
+Fly(P3, JFK, ATL)
+Load(C1, P1, ATL)
+Fly(P3, ATL, SFO)
+Fly(P1, ATL, SFO)
+Fly(P3, SFO, JFK)
+Fly(P1, SFO, JFK)
+Fly(P2, JFK, ATL)
+Fly(P3, JFK, ATL)
+Fly(P2, ATL, SFO)
+Fly(P3, ATL, SFO)
+Unload(C1, P1, JFK)
+Fly(P2, SFO, ATL)
+Fly(P1, JFK, ATL)
+Fly(P3, SFO, ATL)
+Fly(P2, ATL, SFO)
+Fly(P1, ATL, SFO)
+Fly(P3, ATL, JFK)
+Fly(P2, SFO, ATL)
+Load(C3, P3, JFK)
+Fly(P2, ATL, JFK)
+Fly(P1, SFO, ATL)
+Fly(P3, JFK, ATL)
+Fly(P1, ATL, JFK)
+Fly(P3, ATL, SFO)
+Fly(P2, JFK, ATL)
+Fly(P1, JFK, ATL)
+Fly(P2, ATL, SFO)
+Fly(P1, ATL, SFO)
+Fly(P3, SFO, ATL)
+Unload(C3, P3, ATL)
+Fly(P3, ATL, SFO)
+Fly(P2, SFO, ATL)
+Fly(P1, SFO, ATL)
+Fly(P2, ATL, JFK)
+Load(C3, P1, ATL)
+Fly(P1, ATL, SFO)
+Fly(P3, SFO, ATL)
+Fly(P1, SFO, JFK)
+Fly(P3, ATL, JFK)
+Fly(P2, JFK, ATL)
+Fly(P1, JFK, ATL)
+Fly(P2, ATL, SFO)
+Fly(P1, ATL, SFO)
+Unload(C3, P1, SFO)
+Fly(P2, SFO, ATL)
+Fly(P1, SFO, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, JFK)
+Fly(P3, JFK, ATL)
+Fly(P2, JFK, ATL)
+Load(C2, P1, JFK)
+Fly(P3, ATL, SFO)
+Fly(P2, ATL, SFO)
+Fly(P3, SFO, JFK)
+Fly(P1, JFK, ATL)
+Fly(P2, SFO, ATL)
+Fly(P1, ATL, SFO)
+Fly(P2, ATL, JFK)
+Fly(P3, JFK, ATL)
+Fly(P1, SFO, ATL)
+Fly(P3, ATL, SFO)
+Load(C1, P2, JFK)
+Fly(P1, ATL, SFO)
+Fly(P2, JFK, ATL)
+Fly(P3, SFO, ATL)
+Fly(P2, ATL, SFO)
+Fly(P3, ATL, JFK)
+Fly(P1, SFO, ATL)
+Fly(P2, SFO, ATL)
+Fly(P1, ATL, JFK)
+Unload(C1, P2, ATL)
+Fly(P2, ATL, SFO)
+Fly(P3, JFK, ATL)
+Fly(P2, SFO, JFK)
+Fly(P3, ATL, SFO)
+Fly(P1, JFK, ATL)
+Fly(P3, SFO, JFK)
+Fly(P1, ATL, SFO)
+Unload(C2, P1, SFO)
+Fly(P1, SFO, ATL)
+Fly(P3, JFK, ATL)
+Fly(P1, ATL, JFK)
+Fly(P3, ATL, SFO)
+Fly(P2, JFK, ATL)
+Fly(P3, SFO, JFK)
+Fly(P2, ATL, SFO)
+Load(C3, P2, SFO)
+Fly(P2, SFO, JFK)
+Fly(P3, JFK, ATL)
+Fly(P2, JFK, ATL)
+Fly(P3, ATL, SFO)
+Fly(P1, JFK, ATL)
+Fly(P2, ATL, SFO)
+Fly(P1, ATL, SFO)
+Fly(P3, SFO, ATL)
+Unload(C3, P2, SFO)
+Fly(P2, SFO, ATL)
+Load(C1, P3, ATL)
+Fly(P3, ATL, SFO)
+Fly(P2, ATL, SFO)
+Fly(P1, SFO, ATL)
+Fly(P3, SFO, ATL)
+Fly(P1, ATL, JFK)
+Fly(P3, ATL, JFK)
+Fly(P2, SFO, ATL)
+Fly(P1, JFK, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, SFO)
+Load(C3, P1, SFO)
+Fly(P1, SFO, ATL)
+Fly(P2, JFK, ATL)
+Fly(P1, ATL, JFK)
+Fly(P2, ATL, SFO)
+Unload(C1, P3, JFK)
+Fly(P2, SFO, JFK)
+Fly(P3, JFK, ATL)
+Fly(P2, JFK, ATL)
+Fly(P3, ATL, SFO)
+Fly(P1, JFK, ATL)
+Fly(P2, ATL, SFO)
+Fly(P1, ATL, SFO)
+Fly(P3, SFO, ATL)
+Unload(C3, P1, SFO)
+
+
+Solving Air Cargo Problem 2 using uniform_cost_search...
+
+Expansions   Goal Tests   New Nodes
+   4852        4854       44030   
+
+Plan length: 9  Time elapsed in seconds: 48.57316937900032
+Load(C1, P1, SFO)
+Load(C2, P2, JFK)
+Load(C3, P3, ATL)
+Fly(P1, SFO, JFK)
+Fly(P2, JFK, SFO)
+Fly(P3, ATL, SFO)
+Unload(C3, P3, SFO)
+Unload(C1, P1, JFK)
+Unload(C2, P2, SFO)
+
+
+
+Solving Air Cargo Problem 2 using astar_search with h_1...
+
+Expansions   Goal Tests   New Nodes
+   4852        4854       44030   
+
+Plan length: 9  Time elapsed in seconds: 48.00649836100092
+Load(C1, P1, SFO)
+Load(C2, P2, JFK)
+Load(C3, P3, ATL)
+Fly(P1, SFO, JFK)
+Fly(P2, JFK, SFO)
+Fly(P3, ATL, SFO)
+Unload(C3, P3, SFO)
+Unload(C1, P1, JFK)
+Unload(C2, P2, SFO)
+
+
+Solving Air Cargo Problem 2 using astar_search with h_ignore_preconditions...
+
+Expansions   Goal Tests   New Nodes
+   1506        1508       13820   
+
+Plan length: 9  Time elapsed in seconds: 15.4261049859997
+Load(C3, P3, ATL)
+Fly(P3, ATL, SFO)
+Unload(C3, P3, SFO)
+Load(C1, P1, SFO)
+Fly(P1, SFO, JFK)
+Unload(C1, P1, JFK)
+Load(C2, P2, JFK)
+Fly(P2, JFK, SFO)
+Unload(C2, P2, SFO)
+
+
+Solving Air Cargo Problem 2 using astar_search with h_pg_levelsum...
+
+Expansions   Goal Tests   New Nodes
+    86          88         841    
+
+Plan length: 9  Time elapsed in seconds: 289.3910018229999
+Load(C1, P1, SFO)
+Fly(P1, SFO, JFK)
+Load(C2, P2, JFK)
+Fly(P2, JFK, SFO)
+Load(C3, P3, ATL)
+Fly(P3, ATL, SFO)
+Unload(C3, P3, SFO)
+Unload(C1, P1, JFK)
+Unload(C2, P2, SFO)
+
+
+\end{lstlisting}
+
+\subsection{Problem 3}
+\begin{lstlisting}
+
+Solving Air Cargo Problem 3 using breadth_first_search...
+
+Expansions   Goal Tests   New Nodes
+  14663       18098       129631  
+
+Plan length: 12  Time elapsed in seconds: 109.91719108899997
+Load(C2, P2, JFK)
+Load(C1, P1, SFO)
+Fly(P2, JFK, ORD)
+Load(C4, P2, ORD)
+Fly(P1, SFO, ATL)
+Load(C3, P1, ATL)
+Fly(P1, ATL, JFK)
+Unload(C1, P1, JFK)
+Unload(C3, P1, JFK)
+Fly(P2, ORD, SFO)
+Unload(C2, P2, SFO)
+Unload(C4, P2, SFO)
+
+
+Solving Air Cargo Problem 3 using uniform_cost_search...
+
+Expansions   Goal Tests   New Nodes
+  18235       18237       159716  
+
+Plan length: 12  Time elapsed in seconds: 393.7940513680005
+Load(C1, P1, SFO)
+Load(C2, P2, JFK)
+Fly(P1, SFO, ATL)
+Load(C3, P1, ATL)
+Fly(P2, JFK, ORD)
+Load(C4, P2, ORD)
+Fly(P2, ORD, SFO)
+Fly(P1, ATL, JFK)
+Unload(C4, P2, SFO)
+Unload(C3, P1, JFK)
+Unload(C1, P1, JFK)
+Unload(C2, P2, SFO)
+
+
+Solving Air Cargo Problem 3 using depth_first_graph_search...
+
+Expansions   Goal Tests   New Nodes
+   627         628         5176   
+
+Plan length: 596  Time elapsed in seconds: 3.479658971002209
+Fly(P1, SFO, ORD)
+Fly(P2, JFK, ORD)
+Fly(P1, ORD, ATL)
+Fly(P2, ORD, ATL)
+Fly(P1, ATL, JFK)
+Fly(P2, ATL, SFO)
+Load(C1, P2, SFO)
+Fly(P2, SFO, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, SFO)
+Unload(C1, P2, JFK)
+Fly(P1, SFO, ORD)
+Fly(P2, JFK, ORD)
+Fly(P1, ORD, ATL)
+Fly(P2, ORD, ATL)
+Fly(P1, ATL, JFK)
+Fly(P2, ATL, SFO)
+Load(C2, P1, JFK)
+Fly(P2, SFO, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, SFO)
+Unload(C2, P1, SFO)
+Fly(P1, SFO, ORD)
+Fly(P2, JFK, ORD)
+Fly(P1, ORD, ATL)
+Fly(P2, ORD, ATL)
+Fly(P1, ATL, JFK)
+Fly(P2, ATL, SFO)
+Load(C2, P2, SFO)
+Fly(P2, SFO, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, JFK)
+Load(C3, P1, ATL)
+Fly(P1, ATL, ORD)
+Fly(P2, JFK, ORD)
+Fly(P1, ORD, SFO)
+Fly(P2, ORD, ATL)
+Fly(P1, SFO, JFK)
+Fly(P2, ATL, SFO)
+Unload(C2, P2, SFO)
+Fly(P2, SFO, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, SFO)
+Fly(P2, ATL, JFK)
+Fly(P1, SFO, ATL)
+Load(C1, P2, JFK)
+Fly(P1, ATL, ORD)
+Fly(P2, JFK, ORD)
+Fly(P1, ORD, SFO)
+Fly(P2, ORD, ATL)
+Fly(P1, SFO, JFK)
+Fly(P2, ATL, SFO)
+Unload(C1, P2, SFO)
+Fly(P2, SFO, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, SFO)
+Unload(C3, P1, SFO)
+Fly(P1, SFO, ORD)
+Fly(P2, JFK, ORD)
+Fly(P1, ORD, ATL)
+Fly(P2, ORD, ATL)
+Fly(P1, ATL, JFK)
+Fly(P2, ATL, SFO)
+Load(C3, P2, SFO)
+Fly(P2, SFO, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, SFO)
+Unload(C3, P2, JFK)
+Fly(P1, SFO, ORD)
+Fly(P2, JFK, ORD)
+Fly(P1, ORD, ATL)
+Fly(P2, ORD, SFO)
+Load(C2, P2, SFO)
+Fly(P1, ATL, ORD)
+Fly(P2, SFO, ORD)
+Fly(P1, ORD, SFO)
+Fly(P2, ORD, ATL)
+Fly(P1, SFO, JFK)
+Fly(P2, ATL, JFK)
+Unload(C2, P2, JFK)
+Fly(P2, JFK, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, SFO)
+Fly(P1, ATL, SFO)
+Load(C1, P2, SFO)
+Fly(P2, SFO, ORD)
+Fly(P1, SFO, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, JFK)
+Unload(C1, P2, JFK)
+Fly(P2, JFK, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Load(C4, P1, ORD)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, ORD)
+Fly(P1, ATL, SFO)
+Fly(P2, ORD, SFO)
+Fly(P1, SFO, JFK)
+Fly(P2, SFO, JFK)
+Unload(C4, P1, JFK)
+Fly(P2, JFK, ORD)
+Load(C3, P1, JFK)
+Fly(P2, ORD, ATL)
+Fly(P1, JFK, ORD)
+Fly(P2, ATL, SFO)
+Fly(P1, ORD, ATL)
+Fly(P2, SFO, JFK)
+Fly(P1, ATL, SFO)
+Unload(C3, P1, SFO)
+Fly(P1, SFO, ORD)
+Fly(P2, JFK, ORD)
+Fly(P1, ORD, ATL)
+Fly(P2, ORD, ATL)
+Fly(P1, ATL, JFK)
+Fly(P2, ATL, SFO)
+Load(C3, P2, SFO)
+Fly(P2, SFO, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, SFO)
+Load(C4, P2, JFK)
+Fly(P1, SFO, ORD)
+Fly(P2, JFK, ORD)
+Fly(P1, ORD, ATL)
+Fly(P2, ORD, ATL)
+Fly(P1, ATL, JFK)
+Fly(P2, ATL, SFO)
+Unload(C4, P2, SFO)
+Fly(P2, SFO, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, SFO)
+Unload(C3, P2, JFK)
+Fly(P1, SFO, ORD)
+Fly(P2, JFK, ORD)
+Fly(P1, ORD, ATL)
+Fly(P2, ORD, ATL)
+Fly(P1, ATL, JFK)
+Fly(P2, ATL, SFO)
+Load(C4, P2, SFO)
+Fly(P2, SFO, ATL)
+Fly(P1, JFK, ORD)
+Unload(C4, P2, ATL)
+Fly(P1, ORD, SFO)
+Fly(P2, ATL, ORD)
+Fly(P1, SFO, JFK)
+Fly(P2, ORD, SFO)
+Fly(P1, JFK, ATL)
+Fly(P2, SFO, JFK)
+Load(C3, P2, JFK)
+Fly(P1, ATL, ORD)
+Fly(P2, JFK, ORD)
+Fly(P1, ORD, SFO)
+Fly(P2, ORD, ATL)
+Unload(C3, P2, ATL)
+Fly(P2, ATL, ORD)
+Fly(P1, SFO, ORD)
+Fly(P2, ORD, SFO)
+Fly(P1, ORD, ATL)
+Fly(P2, SFO, JFK)
+Fly(P1, ATL, JFK)
+Load(C2, P2, JFK)
+Fly(P2, JFK, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, SFO)
+Fly(P1, ATL, SFO)
+Unload(C2, P2, SFO)
+Fly(P2, SFO, ORD)
+Fly(P1, SFO, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, JFK)
+Load(C1, P2, JFK)
+Fly(P2, JFK, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, SFO)
+Fly(P1, ATL, SFO)
+Unload(C1, P2, SFO)
+Fly(P2, SFO, ORD)
+Fly(P1, SFO, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, JFK)
+Load(C4, P1, ATL)
+Fly(P1, ATL, ORD)
+Fly(P2, JFK, ORD)
+Fly(P1, ORD, SFO)
+Fly(P2, ORD, ATL)
+Fly(P1, SFO, JFK)
+Fly(P2, ATL, SFO)
+Unload(C4, P1, JFK)
+Fly(P2, SFO, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, SFO)
+Load(C2, P1, SFO)
+Fly(P1, SFO, ORD)
+Fly(P2, JFK, ORD)
+Fly(P1, ORD, ATL)
+Fly(P2, ORD, ATL)
+Fly(P1, ATL, JFK)
+Fly(P2, ATL, SFO)
+Unload(C2, P1, JFK)
+Fly(P2, SFO, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, SFO)
+Load(C1, P1, SFO)
+Fly(P1, SFO, ORD)
+Fly(P2, JFK, ORD)
+Fly(P1, ORD, ATL)
+Fly(P2, ORD, ATL)
+Fly(P1, ATL, JFK)
+Fly(P2, ATL, SFO)
+Unload(C1, P1, JFK)
+Fly(P2, SFO, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, JFK)
+Fly(P1, ORD, SFO)
+Load(C4, P2, JFK)
+Fly(P1, SFO, ATL)
+Fly(P2, JFK, SFO)
+Fly(P1, ATL, ORD)
+Unload(C4, P2, SFO)
+Fly(P1, ORD, SFO)
+Fly(P2, SFO, ORD)
+Fly(P1, SFO, ATL)
+Fly(P2, ORD, JFK)
+Fly(P1, ATL, JFK)
+Fly(P2, JFK, ATL)
+Load(C2, P1, JFK)
+Fly(P2, ATL, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, SFO)
+Fly(P1, ORD, ATL)
+Fly(P2, SFO, JFK)
+Fly(P1, ATL, SFO)
+Unload(C2, P1, SFO)
+Fly(P1, SFO, ORD)
+Fly(P2, JFK, ORD)
+Fly(P1, ORD, ATL)
+Fly(P2, ORD, ATL)
+Fly(P1, ATL, JFK)
+Fly(P2, ATL, SFO)
+Load(C4, P2, SFO)
+Fly(P2, SFO, ORD)
+Fly(P1, JFK, SFO)
+Fly(P2, ORD, ATL)
+Load(C3, P2, ATL)
+Fly(P2, ATL, ORD)
+Fly(P1, SFO, ORD)
+Fly(P2, ORD, SFO)
+Fly(P1, ORD, ATL)
+Fly(P2, SFO, JFK)
+Fly(P1, ATL, JFK)
+Unload(C4, P2, JFK)
+Fly(P2, JFK, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, SFO)
+Fly(P1, ATL, SFO)
+Unload(C3, P2, SFO)
+Fly(P2, SFO, ORD)
+Fly(P1, SFO, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, JFK)
+Load(C4, P2, JFK)
+Fly(P2, JFK, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Unload(C4, P2, ATL)
+Fly(P2, ATL, ORD)
+Fly(P1, ATL, ORD)
+Fly(P2, ORD, SFO)
+Fly(P1, ORD, SFO)
+Fly(P2, SFO, JFK)
+Fly(P1, SFO, JFK)
+Load(C1, P2, JFK)
+Fly(P2, JFK, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, SFO)
+Fly(P1, ATL, SFO)
+Unload(C1, P2, SFO)
+Fly(P2, SFO, ORD)
+Fly(P1, SFO, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, JFK)
+Load(C4, P1, ATL)
+Fly(P1, ATL, SFO)
+Fly(P2, JFK, ORD)
+Fly(P1, SFO, JFK)
+Fly(P2, ORD, ATL)
+Fly(P1, JFK, ORD)
+Fly(P2, ATL, SFO)
+Load(C3, P2, SFO)
+Fly(P1, ORD, ATL)
+Fly(P2, SFO, ORD)
+Fly(P1, ATL, SFO)
+Fly(P2, ORD, JFK)
+Fly(P1, SFO, JFK)
+Unload(C3, P2, JFK)
+Fly(P2, JFK, ORD)
+Fly(P1, JFK, ATL)
+Fly(P2, ORD, ATL)
+Fly(P1, ATL, ORD)
+Fly(P2, ATL, SFO)
+Fly(P1, ORD, SFO)
+Unload(C4, P1, SFO)
+Fly(P2, SFO, ORD)
+Fly(P1, SFO, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, JFK)
+Load(C3, P2, JFK)
+Fly(P2, JFK, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, SFO)
+Fly(P1, ATL, SFO)
+Unload(C3, P2, SFO)
+Fly(P1, SFO, ORD)
+Load(C4, P2, SFO)
+Fly(P1, ORD, ATL)
+Fly(P2, SFO, JFK)
+Fly(P1, ATL, SFO)
+Fly(P2, JFK, ORD)
+Load(C3, P1, SFO)
+Fly(P2, ORD, ATL)
+Fly(P1, SFO, ORD)
+Fly(P2, ATL, SFO)
+Fly(P1, ORD, ATL)
+Fly(P2, SFO, JFK)
+Fly(P1, ATL, JFK)
+Unload(C4, P2, JFK)
+Fly(P2, JFK, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, SFO)
+Fly(P2, ATL, SFO)
+Fly(P1, SFO, ATL)
+Load(C2, P2, SFO)
+Fly(P1, ATL, ORD)
+Fly(P2, SFO, ORD)
+Fly(P1, ORD, SFO)
+Fly(P2, ORD, ATL)
+Fly(P1, SFO, JFK)
+Fly(P2, ATL, JFK)
+Unload(C2, P2, JFK)
+Fly(P2, JFK, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, SFO)
+Fly(P2, ATL, SFO)
+Fly(P1, SFO, ATL)
+Load(C1, P2, SFO)
+Fly(P1, ATL, ORD)
+Fly(P2, SFO, ORD)
+Fly(P1, ORD, SFO)
+Fly(P2, ORD, ATL)
+Fly(P1, SFO, JFK)
+Fly(P2, ATL, JFK)
+Load(C4, P2, JFK)
+Fly(P2, JFK, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, SFO)
+Fly(P1, ATL, SFO)
+Unload(C4, P2, SFO)
+Fly(P2, SFO, ORD)
+Fly(P1, SFO, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, JFK)
+Unload(C1, P2, JFK)
+Fly(P2, JFK, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, SFO)
+Fly(P1, ATL, SFO)
+Unload(C3, P1, SFO)
+Fly(P2, SFO, ORD)
+Fly(P1, SFO, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, JFK)
+Load(C2, P2, JFK)
+Fly(P2, JFK, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, SFO)
+Fly(P1, ATL, SFO)
+Unload(C2, P2, SFO)
+Fly(P2, SFO, ORD)
+Fly(P1, SFO, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, JFK)
+Load(C1, P2, JFK)
+Fly(P2, JFK, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, SFO)
+Load(C2, P2, SFO)
+Fly(P1, ATL, ORD)
+Fly(P2, SFO, ORD)
+Fly(P1, ORD, SFO)
+Fly(P2, ORD, ATL)
+Fly(P1, SFO, JFK)
+Unload(C2, P2, ATL)
+Fly(P2, ATL, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, SFO)
+Fly(P1, ORD, ATL)
+Fly(P2, SFO, JFK)
+Fly(P1, ATL, SFO)
+Unload(C1, P2, JFK)
+Fly(P1, SFO, ORD)
+Fly(P2, JFK, ORD)
+Fly(P1, ORD, ATL)
+Fly(P2, ORD, SFO)
+Fly(P1, ATL, JFK)
+Fly(P2, SFO, ATL)
+Load(C1, P1, JFK)
+Fly(P2, ATL, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, SFO)
+Fly(P1, ORD, ATL)
+Fly(P2, SFO, JFK)
+Fly(P1, ATL, SFO)
+Unload(C1, P1, SFO)
+Fly(P1, SFO, ORD)
+Fly(P2, JFK, ORD)
+Fly(P1, ORD, ATL)
+Fly(P2, ORD, ATL)
+Fly(P1, ATL, JFK)
+Fly(P2, ATL, SFO)
+Load(C4, P2, SFO)
+Fly(P2, SFO, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, SFO)
+Unload(C4, P2, JFK)
+Fly(P1, SFO, ORD)
+Fly(P2, JFK, ORD)
+Fly(P1, ORD, ATL)
+Fly(P2, ORD, ATL)
+Fly(P1, ATL, JFK)
+Fly(P2, ATL, SFO)
+Load(C3, P2, SFO)
+Fly(P2, SFO, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, SFO)
+Unload(C3, P2, JFK)
+Fly(P1, SFO, ORD)
+Fly(P2, JFK, ORD)
+Fly(P1, ORD, ATL)
+Fly(P2, ORD, ATL)
+Fly(P1, ATL, JFK)
+Fly(P2, ATL, SFO)
+Load(C1, P2, SFO)
+Fly(P2, SFO, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, SFO)
+Unload(C1, P2, JFK)
+Fly(P1, SFO, ORD)
+Fly(P2, JFK, ORD)
+Fly(P1, ORD, ATL)
+Fly(P2, ORD, ATL)
+Fly(P1, ATL, JFK)
+Fly(P2, ATL, SFO)
+Load(C4, P1, JFK)
+Fly(P2, SFO, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, JFK)
+Fly(P1, ATL, SFO)
+Unload(C4, P1, SFO)
+Fly(P1, SFO, ORD)
+Fly(P2, JFK, ORD)
+Fly(P1, ORD, ATL)
+Fly(P2, ORD, ATL)
+Fly(P1, ATL, JFK)
+Fly(P2, ATL, SFO)
+Load(C4, P2, SFO)
+Fly(P2, SFO, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, JFK)
+Load(C2, P1, ATL)
+Fly(P1, ATL, ORD)
+Fly(P2, JFK, ORD)
+Fly(P1, ORD, SFO)
+Fly(P2, ORD, ATL)
+Unload(C4, P2, ATL)
+Fly(P2, ATL, ORD)
+Fly(P1, SFO, ORD)
+Fly(P2, ORD, SFO)
+Fly(P1, ORD, ATL)
+Fly(P2, SFO, JFK)
+Fly(P1, ATL, JFK)
+Load(C3, P2, JFK)
+Fly(P2, JFK, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, ATL)
+Fly(P1, ORD, ATL)
+Fly(P2, ATL, SFO)
+Unload(C2, P1, ATL)
+Fly(P1, ATL, ORD)
+Fly(P2, SFO, ORD)
+Fly(P1, ORD, SFO)
+Fly(P2, ORD, ATL)
+Fly(P1, SFO, JFK)
+Fly(P2, ATL, JFK)
+Unload(C3, P2, JFK)
+Fly(P2, JFK, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, SFO)
+Fly(P1, ORD, SFO)
+Fly(P2, SFO, ATL)
+Load(C2, P2, ATL)
+Fly(P2, ATL, ORD)
+Fly(P1, SFO, ORD)
+Fly(P2, ORD, SFO)
+Fly(P1, ORD, ATL)
+Unload(C2, P2, SFO)
+Fly(P1, ATL, SFO)
+Fly(P2, SFO, JFK)
+Fly(P1, SFO, ORD)
+Fly(P2, JFK, ORD)
+Fly(P1, ORD, JFK)
+Fly(P2, ORD, ATL)
+Load(C4, P2, ATL)
+Fly(P2, ATL, ORD)
+Fly(P1, JFK, ORD)
+Fly(P2, ORD, SFO)
+Fly(P1, ORD, ATL)
+Unload(C4, P2, SFO)
+
+
+Solving Air Cargo Problem 3 using astar_search with h_1...
+
+Expansions   Goal Tests   New Nodes
+  18235       18237       159716  
+
+Plan length: 12  Time elapsed in seconds: 452.49461412800156
+Load(C1, P1, SFO)
+Load(C2, P2, JFK)
+Fly(P1, SFO, ATL)
+Load(C3, P1, ATL)
+Fly(P2, JFK, ORD)
+Load(C4, P2, ORD)
+Fly(P2, ORD, SFO)
+Fly(P1, ATL, JFK)
+Unload(C4, P2, SFO)
+Unload(C3, P1, JFK)
+Unload(C1, P1, JFK)
+Unload(C2, P2, SFO)
+
+
+Solving Air Cargo Problem 3 using astar_search with h_ignore_preconditions...
+
+Expansions   Goal Tests   New Nodes
+   5118        5120       45650   
+
+Plan length: 12  Time elapsed in seconds: 99.0986766499991
+Load(C2, P2, JFK)
+Fly(P2, JFK, ORD)
+Load(C4, P2, ORD)
+Fly(P2, ORD, SFO)
+Unload(C4, P2, SFO)
+Load(C1, P1, SFO)
+Fly(P1, SFO, ATL)
+Load(C3, P1, ATL)
+Fly(P1, ATL, JFK)
+Unload(C3, P1, JFK)
+Unload(C1, P1, JFK)
+Unload(C2, P2, SFO)
+
+
+Solving Air Cargo Problem 3 using astar_search with h_pg_levelsum...
+
+Expansions   Goal Tests   New Nodes
+   408         410         3758   
+
+Plan length: 12  Time elapsed in seconds: 2017.6254424609997
+Load(C2, P2, JFK)
+Fly(P2, JFK, ORD)
+Load(C4, P2, ORD)
+Fly(P2, ORD, SFO)
+Load(C1, P1, SFO)
+Fly(P1, SFO, ATL)
+Load(C3, P1, ATL)
+Fly(P1, ATL, JFK)
+Unload(C4, P2, SFO)
+Unload(C3, P1, JFK)
+Unload(C1, P1, JFK)
+Unload(C2, P2, SFO)
+
+\end{lstlisting}
+
+\end{document}

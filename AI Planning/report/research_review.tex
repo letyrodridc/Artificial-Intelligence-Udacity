@@ -1,0 +1,165 @@
+%---------------------------------------------------------------------------------------
+% Configuracion de Documento
+%---------------------------------------------------------------------------------------
+\documentclass[10pt, a4paper,english]{article}
+
+\parindent=20pt
+\parskip=1pt
+\usepackage[width=15.5cm, left=3cm, top=0.5cm, height= 24.5cm]{geometry}
+
+% User package
+\usepackage{epigraph}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage[activeacute, spanish]{babel}
+\usepackage{cancel}
+\usepackage[utf8]{inputenc}
+%\usepackage{graphicx}
+\usepackage{algorithm}
+%\usepackage{algorithmic}
+%\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+%\usepackage{afterpage}
+\usepackage{lastpage}
+\usepackage{listings}
+\usepackage{url}
+\usepackage{mathptmx}
+\usepackage{cite}
+\usepackage{pifont}
+\usepackage{float}
+\usepackage{color}     % para snipets de codigo coloreados
+\usepackage{xcolor}
+\usepackage{fancybox}  % para el sbox de los snipets de codigo
+\usepackage[pdftex]{graphicx}
+\usepackage{graphicx} %paquete para incluir imagenes
+\usepackage{caption}
+\usepackage{subcaption}
+
+
+\lstset{frame=tb,
+	  language=Java,
+	  aboveskip=3mm,
+	  belowskip=3mm,
+	  showstringspaces=false,
+	  columns=flexible,
+	  basicstyle={\scriptsize\ttfamily},
+	  numberstyle=\tiny\color{gray},
+	  keywordstyle=\color{blue},
+	  commentstyle=\color{green},
+	  stringstyle=\color{red},
+	  breaklines=true,
+	  breakatwhitespace=true,
+	  tabsize=3,
+	  numbers=left,
+	  numbersep=15pt,
+	  numberfirstline = false
+	}
+
+
+\pagestyle{fancy}
+
+\thispagestyle{fancy}
+
+\addtolength{\headheight}{1pt}
+
+\lhead{Implement a Planning Search}
+
+\rhead{Udacity} % <--- Cambiar de acuerdo al tp actual
+
+\cfoot{\thepage /\pageref{LastPage}}
+
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Informacion del documento
+
+\author{\normalsize{Leticia Lorena Rodr\'iguez}}
+
+\date{\normalsize{March 20th, 2017}} % <--- Cambiar de acuerdo al tp actual
+
+\title{
+	\includegraphics[width=0.05\textwidth]{udacity-small.png}\\
+Implement a Planning Search \\
+\large {Research Review}
+} % <--- Cambiar de acuerdo al tp actual
+
+\renewcommand\thesection{\Roman{section}}
+\renewcommand\thesubsection{\thesection.\Roman{subsection}}
+
+\begin{document}
+
+\begin{center}
+
+\includegraphics[width=0.05\textwidth]{udacity-small.png}\\
+Implement a Planning Search \\
+Leticia L. Rodriguez \\
+\end{center}
+
+\section{Total Order Planning}
+
+Early planning systems were constructed as so-called total order. 
+
+Starting with an empty plan, in each refinement step there is a commitment to a new action at the specific plan position. This position must be in a total order with respect to the plan's other actions. The propagation method deduces resulting intermediate states and excludes the next refinement step's choice options for actions that do not contribute to satisfying unsatisfied preconditions of the plan's actions or goals. The search terminates successfully if all preconditions of the plan's actions and goals are satisfied.
+
+The early total order planners can not solve some very simple problems as the Sussaman anomaly, so they needed allow interleaving of actions from different subplans in a single sequence.
+
+Some improvements were made as a solution of the interleaving problem. 
+
+Some total order planners are STRIPS (Fikes and Nisson, 1971), WARPLAN (Warren, 1974) and Waldinger's planner (1975). 
+
+The underlying idea of partial-order planning brought the next generation of planners who dominated the next 20 years of research.
+
+
+\section{Partial Order Planning}
+
+Partial-order planning focuses on relaxing the temporal order of actions. In a refinement step, the position of a new action must not be totally ordered with respect to the plan's other actions. However, the commitment may include a decision on additional ordering relations that are necessary to ensure the consistency of the refinement. All unnecessary choice options for potential orderings are ruled out by the propagation process (sometimes called least commitment).
+
+In 1975, Sacerdoti justify the approach as follow:
+
+\bigskip
+
+\indent \textit{When we think of plans in our lives, or conceive of plans for a computer to carry out, we usually think of them as linear sequence of actions. The sequence may include conditional tests or loops, but the basic idea is still to do one step after another. 
+This conception of linearity is misplaced, however. When we say plans are linear we mean that their execution is linear. Basically, a person or a sequential computer's processor can only carry out a single action at a time. But a plan of action is not constrained by physical limitations of linearity. Planning and execution are distinct operations.  
+}
+
+\bigskip
+
+The construction of partially ordered plans (task networks) was started by NOAH planner (Sacerdoti, 1975). TWEAK (Chapman, 1987) and UCPOP (Penberthy and Weld, 1992) are also examples of Partial Ordering Planning.
+
+In late 1990s, partial order were replaced for faster methods.
+
+\section{Planning with binary decision diagrams}
+
+A binary decision diagram is a data structure that is used to represent a Boolean function. A boolean function can be represented as rooted, directed, acyclic graph, which consists of several decision nodes and terminal nodes. 
+
+In 1998, Cimatti present a planner based on BDD approach. The paper presents a practical algorithm for the automatic generation of solutions to planning problems in non-deterministic domains. 
+
+First the planner generates Universal Plans. Second, it generates plans which are guaranteed to achieve the goal in spite of non-determinism, if such plan exist. Third, the implementation of the planner is based on symbolic model checking techniques which have been designed to explore efficiently large state spaces. 
+
+The implementation exploits the compactness of OBDDs (Ordered Binary Decision Diagram) to express in a practical way universal plans of extremely large size.
+
+\newpage
+\section{References}
+
+\begin{footnotesize}
+Wikipedia Binary Decision Diagram - https://en.wikipedia.org/wiki/Binary\_decision\_diagram
+\end{footnotesize}
+
+\begin{footnotesize}
+Norvig, Russell - Artificial Intelligence A modern approach - 3rd Edition 
+\end{footnotesize}
+
+\begin{footnotesize}
+Cimatti - Automatic OBDD-based Generation of Universal Plans in Non-Deterministic Domains - 1998
+\end{footnotesize}
+
+\begin{footnotesize}
+AI Center Website - http://www.ai-center.com/
+\end{footnotesize}
+
+\begin{footnotesize}
+Sacerdoti - Non linear nature of plans - 1975
+\end{footnotesize}
+
+\end{document}
